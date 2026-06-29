@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Geo XT — Engineered Geothermal Energy for India</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Archivo+Expanded:wght@600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --basalt:#0B0E14;
+    --basalt-2:#11151F;
+    --basalt-3:#181D2A;
+    --magma:#FF5A2C;
+    --magma-hi:#FFB347;
+    --teal:#1FB6A6;
+    --bone:#EBE6DA;
+    --bone-dim:#9AA0A8;
+    --line:rgba(235,230,218,0.12);
+    --sans:'Archivo',system-ui,sans-serif;
+    --exp:'Archivo Expanded','Archivo',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--basalt);color:var(--bone);font-family:var(--sans);
+    line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 32px}
+  .mono{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+  .eyebrow{color:var(--magma-hi);font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;display:inline-flex;align-items:center;gap:10px}
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--magma)}
+
+  /* NAV */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;backdrop-filter:blur(14px);
+    background:rgba(11,14,20,0.72);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:68px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:var(--exp);font-weight:800;
+    letter-spacing:.02em;font-size:19px}
+  .brand .mark{width:26px;height:26px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%,var(--magma-hi),var(--magma) 55%,#7a1f0c);
+    box-shadow:0 0 18px rgba(255,90,44,.55)}
+  .navlinks{display:flex;gap:34px;font-size:14px;font-weight:500}
+  .navlinks a{color:var(--bone-dim);transition:color .2s}
+  .navlinks a:hover{color:var(--bone)}
+  .navcta{border:1px solid var(--line);padding:9px 18px;border-radius:30px;font-size:13px;
+    font-weight:600;transition:.2s}
+  .navcta:hover{background:var(--magma);border-color:var(--magma);color:#0B0E14}
+  .burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+  .burger span{width:24px;height:2px;background:var(--bone)}
+
+  /* HERO */
+  .hero{position:relative;padding:150px 0 90px;overflow:hidden}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:50px;align-items:center}
+  h1{font-family:var(--exp);font-weight:800;font-size:clamp(40px,6vw,76px);line-height:.98;
+    letter-spacing:-.01em}
+  h1 .hot{background:linear-gradient(100deg,var(--magma-hi),var(--magma));-webkit-background-clip:text;
+    background-clip:text;-webkit-text-fill-color:transparent}
+  .hero p.lede{margin-top:26px;font-size:18px;max-width:520px;color:#cdc8bd}
+  .hero-cta{margin-top:34px;display:flex;gap:14px;flex-wrap:wrap}
+  .btn{padding:14px 26px;border-radius:30px;font-weight:600;font-size:15px;transition:.2s;display:inline-flex;align-items:center;gap:9px}
+  .btn-pri{background:var(--magma);color:#0B0E14}
+  .btn-pri:hover{background:var(--magma-hi);transform:translateY(-2px)}
+  .btn-sec{border:1px solid var(--line);color:var(--bone)}
+  .btn-sec:hover{border-color:var(--bone)}
+
+  /* India heat map */
+  .mapwrap{position:relative;aspect-ratio:1/1.05;display:flex;align-items:center;justify-content:center}
+  .mapwrap svg{width:100%;height:auto;filter:drop-shadow(0 20px 60px rgba(255,90,44,.18))}
+  .india-base{fill:var(--basalt-3);stroke:rgba(255,90,44,.35);stroke-width:1.4}
+  .node{cursor:pointer}
+  .node .ring{fill:none;stroke:var(--magma);stroke-width:1.5;opacity:.5;
+    transform-origin:center;animation:pulse 3s ease-out infinite}
+  .node .dot{fill:var(--magma-hi);filter:drop-shadow(0 0 6px var(--magma))}
+  .node:nth-child(2) .ring{animation-delay:.6s}
+  .node:nth-child(3) .ring{animation-delay:1.2s}
+  .node:nth-child(4) .ring{animation-delay:1.8s}
+  .node:nth-child(5) .ring{animation-delay:.9s}
+  .node:nth-child(6) .ring{animation-delay:1.5s}
+  .node:nth-child(7) .ring{animation-delay:2.1s}
+  @keyframes pulse{0%{r:6;opacity:.6}100%{r:26;opacity:0}}
+  .node text{font-family:var(--mono);font-size:9px;fill:var(--bone-dim);text-transform:uppercase;letter-spacing:.08em}
+  .maplabel{position:absolute;bottom:6px;left:0;font-family:var(--mono);font-size:11px;color:var(--bone-dim);letter-spacing:.1em}
+
+  /* MARQUEE STATS */
+  .ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+    margin-top:60px;display:grid;grid-template-columns:repeat(4,1fr)}
+  .ticker .cell{padding:30px 24px;border-right:1px solid var(--line)}
+  .ticker .cell:last-child{border-right:none}
+  .ticker .num{font-family:var(--exp);font-weight:700;font-size:34px;color:var(--bone);
+    font-variant-numeric:tabular-nums}
+  .ticker .num span{color:var(--magma)}
+  .ticker .lbl{font-family:var(--mono);font-size:11px;color:var(--bone-dim);text-transform:uppercase;letter-spacing:.1em;margin-top:8px}
+
+  /* SECTION */
+  section{padding:110px 0}
+  .sec-head{max-width:680px;margin-bottom:54px}
+  .sec-head h2{font-family:var(--exp);font-weight:700;font-size:clamp(28px,3.6vw,46px);
+    line-height:1.05;margin-top:18px;letter-spacing:-.01em}
+  .sec-head p{margin-top:18px;color:#bdb8ad;font-size:17px}
+
+  /* TECH process */
+  .process{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .step{background:var(--basalt-2);padding:34px 26px;position:relative;transition:.3s}
+  .step:hover{background:var(--basalt-3)}
+  .step .idx{font-family:var(--mono);font-size:13px;color:var(--magma);letter-spacing:.1em}
+  .step .depth{font-family:var(--mono);font-size:11px;color:var(--teal);margin-top:4px}
+  .step h3{font-family:var(--exp);font-weight:600;font-size:20px;margin:20px 0 12px}
+  .step p{font-size:14px;color:var(--bone-dim);line-height:1.6}
+  .step .bar{position:absolute;left:0;top:0;height:3px;background:linear-gradient(90deg,var(--magma),var(--magma-hi));width:0;transition:width .5s}
+  .step:hover .bar{width:100%}
+
+  /* FEATURE split */
+  .feat{display:grid;grid-template-columns:1fr 1fr;gap:0;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-top:24px}
+  .feat .panel{padding:46px 44px}
+  .feat .left{background:linear-gradient(160deg,var(--basalt-2),var(--basalt))}
+  .feat .right{background:var(--basalt-2);border-left:1px solid var(--line)}
+  .feat h3{font-family:var(--exp);font-weight:700;font-size:26px;margin-bottom:16px}
+  .feat ul{list-style:none;margin-top:22px}
+  .feat li{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line);font-size:15px;color:#cdc8bd}
+  .feat li::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;margin-top:7px;
+    background:var(--teal);box-shadow:0 0 8px var(--teal)}
+  .feat .right li::before{background:var(--magma);box-shadow:0 0 8px var(--magma)}
+
+  /* PROVINCES */
+  .prov-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .prov{border:1px solid var(--line);border-radius:14px;padding:28px;background:var(--basalt-2);
+    transition:.3s;position:relative;overflow:hidden}
+  .prov:hover{transform:translateY(-4px);border-color:rgba(255,90,44,.4)}
+  .prov .glow{position:absolute;width:120px;height:120px;border-radius:50%;
+    background:radial-gradient(circle,rgba(255,90,44,.22),transparent 70%);top:-30px;right:-30px}
+  .prov .temp{font-family:var(--exp);font-weight:800;font-size:38px;color:var(--magma-hi);
+    font-variant-numeric:tabular-nums}
+  .prov .temp small{font-size:16px;color:var(--bone-dim);font-weight:500}
+  .prov h4{font-family:var(--exp);font-weight:600;font-size:18px;margin:8px 0 6px}
+  .prov .loc{font-family:var(--mono);font-size:11px;color:var(--bone-dim);letter-spacing:.06em}
+  .prov p{font-size:13.5px;color:#bdb8ad;margin-top:14px;line-height:1.6}
+
+  /* CTA band */
+  .band{background:linear-gradient(120deg,#2a0d05,var(--basalt) 70%);border:1px solid rgba(255,90,44,.25);
+    border-radius:20px;padding:64px 56px;text-align:center;position:relative;overflow:hidden}
+  .band::after{content:"";position:absolute;inset:0;
+    background:radial-gradient(circle at 50% 120%,rgba(255,90,44,.3),transparent 60%)}
+  .band > *{position:relative}
+  .band h2{font-family:var(--exp);font-weight:800;font-size:clamp(30px,4vw,52px);line-height:1.02}
+  .band p{max-width:560px;margin:20px auto 0;color:#cdc8bd;font-size:17px}
+
+  /* FOOTER */
+  footer{border-top:1px solid var(--line);padding:64px 0 36px;margin-top:30px}
+  .foot-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
+  .foot-brand p{color:var(--bone-dim);font-size:14px;margin-top:16px;max-width:280px}
+  .foot-col h5{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone-dim);margin-bottom:18px}
+  .foot-col a{display:block;color:#cdc8bd;font-size:14px;padding:6px 0;transition:.2s}
+  .foot-col a:hover{color:var(--magma-hi)}
+  .foot-bot{display:flex;justify-content:space-between;align-items:center;margin-top:50px;
+    padding-top:24px;border-top:1px solid var(--line);color:var(--bone-dim);font-size:13px;flex-wrap:wrap;gap:12px}
+
+  .reveal{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s ease}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:36px}
+    .mapwrap{max-width:420px;margin:0 auto}
+    .ticker{grid-template-columns:repeat(2,1fr)}
+    .ticker .cell:nth-child(2){border-right:none}
+    .process{grid-template-columns:1fr 1fr}
+    .feat{grid-template-columns:1fr}
+    .feat .right{border-left:none;border-top:1px solid var(--line)}
+    .prov-grid{grid-template-columns:1fr 1fr}
+    .foot-grid{grid-template-columns:1fr 1fr}
+    .navlinks,.navcta{display:none}
+    .burger{display:flex}
+  }
+  @media(max-width:560px){
+    .wrap{padding:0 20px}
+    .ticker{grid-template-columns:1fr 1fr}
+    .process,.prov-grid,.foot-grid{grid-template-columns:1fr}
+    .ticker .cell{border-right:none}
+    .band{padding:44px 26px}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .reveal{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <a href="#" class="brand"><span class="mark"></span>GEO&nbsp;XT</a>
+    <div class="navlinks">
+      <a href="#tech">Technology</a>
+      <a href="#provinces">Resource Map</a>
+      <a href="#approach">Approach</a>
+      <a href="#impact">Impact</a>
+    </div>
+    <a href="#contact" class="navcta">Partner with us</a>
+    <div class="burger"><span></span><span></span><span></span></div>
+  </nav>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap hero-grid">
+    <div class="reveal in">
+      <span class="eyebrow">Engineered Geothermal · India</span>
+      <h1>India runs hot.<br>We make it <span class="hot">baseload.</span></h1>
+      <p class="lede">Geo XT taps India's deep heat with enhanced geothermal systems — drilling into hot dry rock to deliver firm, 24/7 clean power that doesn't blink when the sun sets or the wind drops.</p>
+      <div class="hero-cta">
+        <a href="#tech" class="btn btn-pri">Explore the technology →</a>
+        <a href="#provinces" class="btn btn-sec">See the resource map</a>
+      </div>
+    </div>
+
+    <!-- India heat-node map -->
+    <div class="mapwrap reveal in">
+      <svg viewBox="0 0 360 380" role="img" aria-label="Map of India showing major geothermal provinces">
+        <!-- stylised India silhouette -->
+        <path class="india-base" d="M150 18 L172 24 L190 20 L196 38 L214 44 L232 40 L246 58 L240 78 L256 92
+          L250 116 L268 130 L258 150 L272 168 L256 182 L262 206 L244 214 L250 238 L230 244
+          L222 268 L204 270 L198 296 L182 300 L176 326 L162 348 L150 366 L138 344 L130 318
+          L114 300 L120 276 L104 262 L112 238 L96 224 L106 200 L90 186 L100 162 L84 148
+          L96 124 L82 110 L98 90 L88 70 L108 60 L104 40 L126 38 L132 20 Z"/>
+        <!-- nodes: Ladakh (Puga/Chhumathang), Manikaran(HP), Bakreshwar(WB), Tattapani(Chhattisgarh), Cambay(Gujarat), Godavari(AP) -->
+        <g class="node" tabindex="0"><circle class="ring" cx="138" cy="58" r="6"/><circle class="dot" cx="138" cy="58" r="4"/><text x="146" y="55">Puga · Ladakh</text></g>
+        <g class="node" tabindex="0"><circle class="ring" cx="120" cy="78" r="6"/><circle class="dot" cx="120" cy="78" r="4"/><text x="2" y="82">Manikaran · HP</text></g>
+        <g class="node" tabindex="0"><circle class="ring" cx="232" cy="188" r="6"/><circle class="dot" cx="232" cy="188" r="4"/><text x="240" y="185">Bakreshwar · WB</text></g>
+        <g class="node" tabindex="0"><circle class="ring" cx="178" cy="178" r="6"/><circle class="dot" cx="178" cy="178" r="4"/><text x="186" y="175">Tattapani · CG</text></g>
+        <g class="node" tabindex="0"><circle class="ring" cx="108" cy="158" r="6"/><circle class="dot" cx="108" cy="158" r="4"/><text x="4" y="155">Cambay · GJ</text></g>
+        <g class="node" tabindex="0"><circle class="ring" cx="172" cy="246" r="6"/><circle class="dot" cx="172" cy="246" r="4"/><text x="180" y="250">Godavari · AP</text></g>
+      </svg>
+      <div class="maplabel">Surface temps 90–140°C · &gt;10,000 MW estimated potential</div>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="wrap">
+    <div class="ticker reveal">
+      <div class="cell"><div class="num">10<span>GW</span>+</div><div class="lbl">Est. geothermal potential, India</div></div>
+      <div class="cell"><div class="num">340<span>+</span></div><div class="lbl">Mapped thermal springs</div></div>
+      <div class="cell"><div class="num">24<span>/7</span></div><div class="lbl">Firm dispatchable output</div></div>
+      <div class="cell"><div class="num">7</div><div class="lbl">Priority geothermal provinces</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TECHNOLOGY -->
+<section id="tech">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">The Technology</span>
+      <h2>Borrowing the playbook of Indian oil &amp; gas — pointed straight at heat.</h2>
+      <p>Horizontal drilling, hydraulic stimulation and distributed fibre-optic sensing turn hot dry rock into a managed reservoir. The same tools that found hydrocarbons in the Cambay basin now move heat instead.</p>
+    </div>
+
+    <div class="process reveal">
+      <div class="step"><div class="bar"></div><div class="idx">01</div><div class="depth">0–2 km</div><h3>Drill</h3><p>Directional wells reach hot crystalline rock beneath established thermal provinces, guided by surface-spring and gradient surveys.</p></div>
+      <div class="step"><div class="bar"></div><div class="idx">02</div><div class="depth">2–4 km</div><h3>Stimulate</h3><p>Controlled stimulation opens a network of fine fractures, engineering permeability into rock that was previously sealed.</p></div>
+      <div class="step"><div class="bar"></div><div class="idx">03</div><div class="depth">3–5 km</div><h3>Circulate</h3><p>Water is injected down one well, sweeps heat from the fracture network, and returns superheated through a production well.</p></div>
+      <div class="step"><div class="bar"></div><div class="idx">04</div><div class="depth">surface</div><h3>Generate</h3><p>A binary cycle converts the recovered heat to electricity, then re-injects the cooled water in a closed loop.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- APPROACH split -->
+<section id="approach" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Why It Fits India</span>
+      <h2>A closed loop, by design.</h2>
+    </div>
+    <div class="feat reveal">
+      <div class="panel left">
+        <h3>What goes down</h3>
+        <p style="color:#bdb8ad;font-size:15px">The injection side is engineered to be unobtrusive and water-disciplined — critical for a country managing scarce water and dense communities.</p>
+        <ul>
+          <li>Re-injected water runs in a sealed circuit — minimal net consumption</li>
+          <li>Micro-seismic monitoring keeps stimulation within safe limits</li>
+          <li>Small surface footprint compared with solar or hydro per MW</li>
+          <li>Sited near existing grid and industrial demand centres</li>
+        </ul>
+      </div>
+      <div class="panel right">
+        <h3>What comes up</h3>
+        <p style="color:#bdb8ad;font-size:15px">The output is the thing India's grid struggles to buy cleanly: power that is there at 2pm and 2am alike.</p>
+        <ul>
+          <li>Firm, round-the-clock generation independent of weather</li>
+          <li>A natural complement to India's fast-growing solar fleet</li>
+          <li>Direct heat offtake for industry and district heating</li>
+          <li>Decades-long reservoir life from a single well field</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROVINCES -->
+<section id="provinces" style="padding-top:0">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Resource Map</span>
+      <h2>Seven provinces. One subsurface advantage.</h2>
+      <p>India's geothermal heat is concentrated along well-studied belts — from the high Himalaya to the rift basins of the west and the Godavari graben in the south.</p>
+    </div>
+    <div class="prov-grid reveal">
+      <div class="prov"><div class="glow"></div><div class="temp">110<small>°C</small></div><h4>Puga &amp; Chhumathang</h4><div class="loc">LADAKH · HIMALAYAN BELT</div><p>India's highest-priority field, with boiling springs and shallow high-temperature gradients in a cold, energy-starved region.</p></div>
+      <div class="prov"><div class="glow"></div><div class="temp">95<small>°C</small></div><h4>Manikaran</h4><div class="loc">HIMACHAL PRADESH</div><p>Long-known hot springs in the Parvati valley, well placed for combined power and direct-heat use.</p></div>
+      <div class="prov"><div class="glow"></div><div class="temp">98<small>°C</small></div><h4>Tattapani</h4><div class="loc">CHHATTISGARH · SON-NARMADA</div><p>Site of India's first geothermal power pilot, on a major intracratonic thermal lineament.</p></div>
+      <div class="prov"><div class="glow"></div><div class="temp">90<small>°C</small></div><h4>Bakreshwar</h4><div class="loc">WEST BENGAL · SINGHBHUM</div><p>A cluster of hot springs over deep basement faults, close to eastern industrial load.</p></div>
+      <div class="prov"><div class="glow"></div><div class="temp">120<small>°C</small></div><h4>Cambay Basin</h4><div class="loc">GUJARAT · WEST RIFT</div><p>High heat flow in a mature oil-and-gas basin — existing well data and infrastructure shorten the path to production.</p></div>
+      <div class="prov"><div class="glow"></div><div class="temp">105<small>°C</small></div><h4>Godavari Valley</h4><div class="loc">ANDHRA PRADESH · SOUTH</div><p>Rift-related thermal anomalies in the Godavari graben, near growing southern demand.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACT band -->
+<section id="impact" style="padding-top:0">
+  <div class="wrap">
+    <div class="band reveal">
+      <span class="eyebrow" style="justify-content:center">2070 Net-Zero · The Firm Piece</span>
+      <h2>Solar lights the day.<br>Geo XT holds the night.</h2>
+      <p>As India builds the world's largest renewable fleet, the missing piece is clean firm power. Engineered geothermal can be that backbone — buildable near demand, available every hour, for generations.</p>
+      <div class="hero-cta" style="justify-content:center;margin-top:30px">
+        <a href="#contact" class="btn btn-pri">Build a project with us →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <a href="#" class="brand"><span class="mark"></span>GEO&nbsp;XT</a>
+        <p>Engineering India's deep heat into dependable, 24/7 carbon-free power.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Company</h5>
+        <a href="#approach">About</a><a href="#tech">Technology</a><a href="#provinces">Resource Map</a><a href="#impact">Impact</a>
+      </div>
+      <div class="foot-col">
+        <h5>Engage</h5>
+        <a href="#">Project partnerships</a><a href="#">Government &amp; policy</a><a href="#">Careers</a><a href="#">Press</a>
+      </div>
+      <div class="foot-col">
+        <h5>Contact</h5>
+        <a href="mailto:hello@geoxt.in">hello@geoxt.in</a><a href="#">LinkedIn</a><a href="#">New Delhi · India</a>
+      </div>
+    </div>
+    <div class="foot-bot">
+      <span>© 2026 Geo XT Energy. All rights reserved.</span>
+      <span class="mono">Heat is everywhere. We make it useful.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  document.querySelector('.burger').addEventListener('click',()=>{
+    const n=document.querySelector('.navlinks');
+    n.style.display=n.style.display==='flex'?'none':'flex';
+    n.style.position='absolute';n.style.flexDirection='column';n.style.top='68px';n.style.right='20px';
+    n.style.background='var(--basalt-2)';n.style.padding='18px';n.style.borderRadius='12px';n.style.border='1px solid var(--line)';
+  });
+</script>
+</body>
+</html>
